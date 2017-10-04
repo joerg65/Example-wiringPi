@@ -160,8 +160,13 @@ struct wiringPiNodeStruct *wiringPiNodes = NULL ;
 #define GPIO_TIMER  (BCM2708_PERI_BASE + 0x0000B000)
 #define GPIO_PWM    (BCM2708_PERI_BASE + 0x0020C000)
 
+#ifndef PAGE_SIZE
 #define	PAGE_SIZE   (4*1024)
+#endif
+
+#ifndef BLOCK_SIZE
 #define	BLOCK_SIZE  (4*1024)
+#endif
 
 // PWM
 //	Word offsets into the PWM control region
@@ -1540,7 +1545,7 @@ void setPadDrive (int group, int value)
     if (wiringPiDebug)
     {
       printf ("setPadDrive: Group: %d, value: %d (%08X)\n", group, value, wrVal) ;
-      printf ("Read : %08X\n", *(pads + group + 11)) ;
+      printf ("Read : %08X\n", (unsigned int)*(pads + group + 11)) ;
     }
   }
 }
@@ -1678,7 +1683,7 @@ void pwmSetClock (int divisor)
   if ((wiringPiMode == WPI_MODE_PINS) || (wiringPiMode == WPI_MODE_PHYS) || (wiringPiMode == WPI_MODE_GPIO))
   {
     if (wiringPiDebug)
-      printf ("Setting to: %d. Current: 0x%08X\n", divisor, *(clk + PWMCLK_DIV));
+      printf ("Setting to: %d. Current: 0x%08X\n", divisor, (unsigned int)*(clk + PWMCLK_DIV));
 
     pwm_control = *(pwm + PWM_CONTROL) ;		// preserve PWM_CONTROL
 
@@ -1705,7 +1710,7 @@ void pwmSetClock (int divisor)
     *(pwm + PWM_CONTROL) = pwm_control ;		// restore PWM_CONTROL
 
     if (wiringPiDebug)
-      printf ("Set     to: %d. Now    : 0x%08X\n", divisor, *(clk + PWMCLK_DIV));
+      printf ("Set     to: %d. Now    : 0x%08X\n", divisor, (unsigned int)*(clk + PWMCLK_DIV));
   }
 }
 
@@ -2416,7 +2421,7 @@ int analogRead (int pin)
         return 0;
       lseek (adcFds [pin], 0L, SEEK_SET);
       read  (adcFds [pin], &value[0], 4);
-      return  atoi(value);
+      return  atoi((char*)value);
     }
   }
 
@@ -2619,7 +2624,7 @@ wait:
       sysFdData[fd_base] = c;
       if      (( sysFdIrqType[fd_base] == INT_EDGE_RISING  ) && ( c == '1' ))  return 1;
       else if (( sysFdIrqType[fd_base] == INT_EDGE_FALLING ) && ( c == '0' ))  return 1;
-      else if (( sysFdIrqType[fd_base] == INT_EDGE_BOTH    )                )  return 1;
+      else if ( sysFdIrqType[fd_base] == INT_EDGE_BOTH                      )  return 1;
     }
     usleep(100);
     goto wait;
@@ -2763,6 +2768,7 @@ int wiringPiISR (int pin, int mode, void (*function)(void))
         execl ("/usr/bin/gpio", "gpio", "edge", pinS, modeS, (char *)NULL) ;
         return wiringPiFailure (WPI_FATAL, "wiringPiISR: execl failed: %s\n", strerror (errno)) ;
       }
+      //added J.
       //Android
       else if (access ("/system/bin/gpio", X_OK) == 0)
       {

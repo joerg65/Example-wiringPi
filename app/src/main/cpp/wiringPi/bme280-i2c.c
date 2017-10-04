@@ -1,13 +1,12 @@
 #include <stdio.h>
+#include <unistd.h>
 #include <fcntl.h>
 #include <math.h>
 #include <linux/i2c-dev.h>
-
 #include "bme280-i2c.h"
-#include <android/log.h>
+
 #define LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
 #define LOG_TAG "wpi_android"
-
 
 s32 bme280_begin(const char *device)
 {

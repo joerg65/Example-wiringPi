@@ -1,19 +1,4 @@
 #include <jni.h>
-#include <android/log.h>
-#include <stdio.h>
-#include <string.h>
-
-#define LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
-#define LOG_TAG "wpi_android"
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-
-#include <unistd.h>
-#include <string.h>
-#include <time.h>
-
 #include <wiringPi.h>
 #include "bme280.h"
 #include "bme280-i2c.h"
@@ -23,11 +8,14 @@
 extern "C" {
 #endif
 
+#define LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
+#define LOG_TAG "wpi_android"
+
 #define I2C_DEVICE  "/dev/i2c-1"
 
-int pressure;
-int temperature;
-int humidity;
+u32 pressure;
+s32 temperature;
+u32 humidity;
 
 float SEALEVELPRESSURE_HPA = 1024.25;
 

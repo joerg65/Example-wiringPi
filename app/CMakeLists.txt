@@ -64,6 +64,7 @@ target_link_libraries( wiringPi ${log-lib} )
 
 ######################################################################
 # library wpi_android
+######################################################################
 
 add_library (wpi_android SHARED
 
