@@ -113,6 +113,39 @@ static int physToWpi [64] =
   -1, -1, -1, -1, -1, -1, -1, -1, -1
 } ;
 
+static int physToWpiC2 [64] =
+        {
+                -1,           // 0
+                -1, -1,       // 1, 2
+                -1, -1,
+                -1, -1,
+                7, -1,
+                -1, -1,
+                0,  1,
+                2, -1,
+                3,  4,
+                -1,  5,
+                12, -1,
+                13,  6,
+                14, 10,
+                -1, 11,       // 25, 26
+                -1, -1,	// Actually I2C, but not used
+                21, -1,
+                22, 26,
+                23, -1,
+                24, 27,
+                -1, -1,
+                -1, -1,
+                -1, -1,
+                -1, -1,
+                -1, -1,
+                -1, -1,
+                -1, -1,
+                17, 18,
+                19, 20,
+                -1, -1, -1, -1, -1, -1, -1, -1, -1
+        } ;
+
 static char *physNames [64] = 
 {
   NULL,
@@ -337,7 +370,10 @@ void piPlusReadall (int model)
 
 static void readallPhysOdroidC (int physPin)
 {
-  int pin ;
+    int pin ;
+    int model, rev, mem, maker, overVolted ;
+
+    piBoardId (&model, &rev, &mem, &maker, &overVolted) ;
 
   if (physPinToGpio (physPin) == -1)
     printf (" |      |    ") ;
@@ -355,7 +391,7 @@ static void readallPhysOdroidC (int physPin)
     else if (wpMode == WPI_MODE_PHYS)
       pin = physPin ;
     else
-      pin = physToWpi [physPin] ;
+      pin = physToWpiC2 [physPin] ;
 
     printf (" | %4s", alts [getAlt (pin)]) ;
     printf (" | %d", digitalRead (pin)) ;
@@ -378,10 +414,11 @@ static void readallPhysOdroidC (int physPin)
     else if (wpMode == WPI_MODE_PHYS)
       pin = physPin ;
     else
-      pin = physToWpi [physPin] ;
+      if (model == PI_MODEL_ODROIDC2) pin = physToWpiC2 [physPin] ;
+      else  pin = physToWpi [physPin] ;
 
-    printf (" | %d", digitalRead (pin)) ;
-    printf (" | %-4s", alts [getAlt (pin)]) ;
+      printf (" | %d", digitalRead (pin)) ;
+      printf (" | %-4s", alts [getAlt (pin)]) ;
   }
 
   printf (" | %-6s", physNamesOdroidc [physPin]) ;
@@ -425,7 +462,7 @@ void doReadall (void)
     piPlusReadall (model) ;
   else if (model == PI_MODEL_CM)
     cmReadall () ;
-  else if (model == PI_MODEL_ODROIDC)
+  else if ((model == PI_MODEL_ODROIDC)  || (model == PI_MODEL_ODROIDC2))
     ReadallOdroidC ();
   else
     printf ("Oops - unable to determine board type... model: %d\n", model) ;

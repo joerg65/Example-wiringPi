@@ -634,7 +634,7 @@ static void doReset (char *progName)
 
   /**/ if ((model == PI_MODEL_A)  || (model == PI_MODEL_B))
     endPin = 16 ;
-  else if ((model == PI_MODEL_BP) || (model == PI_MODEL_ODROIDC))
+  else if ((model == PI_MODEL_BP) || (model == PI_MODEL_ODROIDC)  || (model == PI_MODEL_ODROIDC2))
     endPin = 39 ;
   else if (model == PI_MODEL_CM)
   {
