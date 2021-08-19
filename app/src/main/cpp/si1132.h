@@ -74,8 +74,6 @@
 
 #define Si1132_ADDR 0x60
 
-int si1132Fd;
-
 int si1132_begin(const char *device);
 void si1132_end();
 void initialize(void);

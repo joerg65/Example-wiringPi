@@ -8,6 +8,9 @@
 #define LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
 #define LOG_TAG "wpi_android"
 
+int bme280Fd;
+struct bme280_t bme280;
+
 s32 bme280_begin(const char *device)
 {
 	int status = 0;
