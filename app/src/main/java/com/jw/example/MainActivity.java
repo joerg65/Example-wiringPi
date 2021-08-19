@@ -293,7 +293,11 @@ public class MainActivity extends Activity {
                 // TODO Auto-generated method stub
                 if (isChecked) {
 
-                    wiringPiSetup();
+                    if (wiringPiSetup() < 0) {
+                        Log.e(TAG, "Unable to setup wiringPi") ;
+                    } else {
+                        Log.i(TAG, "Successful set up wiringPi") ;
+                    }
 
                     exportGPIO();
 
@@ -673,7 +677,8 @@ public class MainActivity extends Activity {
         //eleminated the hopping of checked checkboxes
         if (adcValue < 0) adcValue = 0;
         //if (adcValue > 0) {
-        ledPos = adcValue * ledPorts.length / 1024;
+        ledPos = adcValue * ledPorts.length / 2048;
+        if (ledPos > ledPorts.length) ledPos = ledPorts.length;
             //ledPos = (ledPorts.length - (ledPos / 1000));
         mPB_ADC.setProgress(adcValue);
         //} else
