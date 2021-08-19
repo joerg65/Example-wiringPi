@@ -1,8 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '25.0.3'
+    compileSdkVersion 30
+    buildToolsVersion '30.0.2'
+
+    android.ndkVersion '23.0.7599858'
 
     externalNativeBuild {
         cmake {
@@ -12,8 +14,8 @@ android {
 
     defaultConfig {
         applicationId "com.hardkernel.wiringpi"
-        minSdkVersion 21
-        targetSdkVersion 21
+        minSdkVersion 19
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "adroid.support.test.runner.AndroidJUnitRunner"
@@ -25,6 +27,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    ndkVersion '23.0.7599858'
 
     defaultConfig {
         externalNativeBuild {
@@ -36,17 +39,17 @@ android {
                 arguments "-DANDROID_TOOLCHAIN=clang"
                 cFlags "-DTEST_C_FLAG1", "-DTEST_C_FLAG2"
                 cppFlags "-DTEST_CPP_FLAG2", "-DTEST_CPP_FLAG2"
-                abiFilters 'armeabi'
+                abiFilters 'armeabi-v7a', 'arm64-v8a'
             }
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    testCompile 'junit:junit:4.12'
+    //implementation 'com.android.support:'
+    testImplementation 'junit:junit:4.12'
 }

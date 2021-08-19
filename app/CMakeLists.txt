@@ -2,7 +2,7 @@
 # library. You should either keep the default value or only pass a
 # value of 3.4.0 or lower.
 
-cmake_minimum_required(VERSION 3.4.1)
+cmake_minimum_required(VERSION 3.4.0)
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -16,8 +16,12 @@ find_library( # Sets the name of the path variable.
               # you want CMake to locate.
               log )
 
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/wiringPi
-                     ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi )
+set(distribution_DIR /home/joerg/Development/Ndk)
+set(wiring_DIR wiringPi)
+
+include_directories( ${distribution_DIR}/${wiring_DIR}/wiringPi
+        ${distribution_DIR}/${wiring_DIR}/devLib
+        src/main/cpp)
 
 
 ######################################################################
@@ -26,34 +30,47 @@ include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/wiringPi
 
 add_library( wiringPi SHARED
 
-             # Provides a relative path to your source file(s).
-             # Associated headers in the same location as their source
-             # file are automatically included.
-             src/main/cpp/wiringPi/wiringPi/wiringSerial.c
-             src/main/cpp/wiringPi/wiringPi/wiringPi.c
-             src/main/cpp/wiringPi/wiringPi/wiringShift.c
-             src/main/cpp/wiringPi/wiringPi/piHiPri.c
-             src/main/cpp/wiringPi/wiringPi/piThread.c
-             src/main/cpp/wiringPi/wiringPi/wiringPiSPI.c
-             src/main/cpp/wiringPi/wiringPi/wiringPiI2C.c
-             src/main/cpp/wiringPi/wiringPi/softPwm.c
-             src/main/cpp/wiringPi/wiringPi/softTone.c
-             src/main/cpp/wiringPi/wiringPi/mcp23008.c
-             src/main/cpp/wiringPi/wiringPi/mcp23016.c
-             src/main/cpp/wiringPi/wiringPi/mcp23017.c
-             src/main/cpp/wiringPi/wiringPi/mcp23s08.c
-             src/main/cpp/wiringPi/wiringPi/mcp23s17.c
-             src/main/cpp/wiringPi/wiringPi/sr595.c
-             src/main/cpp/wiringPi/wiringPi/pcf8574.c
-             src/main/cpp/wiringPi/wiringPi/pcf8591.c
-             src/main/cpp/wiringPi/wiringPi/mcp3002.c
-             src/main/cpp/wiringPi/wiringPi/mcp3004.c
-             src/main/cpp/wiringPi/wiringPi/mcp4802.c
-             src/main/cpp/wiringPi/wiringPi/mcp3422.c
-             src/main/cpp/wiringPi/wiringPi/max31855.c
-             src/main/cpp/wiringPi/wiringPi/max5322.c
-             src/main/cpp/wiringPi/wiringPi/sn3218.c
-             src/main/cpp/wiringPi/wiringPi/drcSerial.c )
+        # Provides a relative path to your source file(s).
+        # Associated headers in the same location as their source
+        # file are automatically included.
+
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/ads1115.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/mcp23008.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/mcp4802.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/piHiPri.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/sr595.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/bmp180.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/mcp23016.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/odroidc1.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/odroidn2.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/piThread.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/wiringPi.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/mcp23017.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/odroidc2.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/odroidc4.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/odroidhc4.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/drcSerial.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/mcp23s08.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/odroidn1.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/wiringPiI2C.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/ds18b20.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/mcp23s17.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/sn3218.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/wiringPiSPI.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/htu21d.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/mcp3002.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/odroidxu3.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/softPwm.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/wiringSerial.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/max31855.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/mcp3004.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/pcf8574.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/softServo.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/wiringShift.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/max5322.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/mcp3422.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/pcf8591.c
+        ${distribution_DIR}/${wiring_DIR}/wiringPi/softTone.c)
 
 target_link_libraries( wiringPi ${log-lib} )
 
@@ -66,12 +83,12 @@ target_link_libraries( wiringPi ${log-lib} )
 # library wpi_android
 ######################################################################
 
+#add_subdirectory(src/main/cpp)
 add_library (wpi_android SHARED
-
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/wpi_android.c
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/si1132.c
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/bme280.c
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/bme280-i2c.c )
+        src/main/cpp/wpi_android.c
+        src/main/cpp/si1132.c
+        src/main/cpp/bme280.c
+        src/main/cpp/bme280-i2c.c )
 
 target_link_libraries( wpi_android wiringPi ${log-lib} )
 
@@ -85,15 +102,15 @@ target_link_libraries( wpi_android wiringPi ${log-lib} )
 ######################################################################
 
 add_library (wiringPiDev SHARED
-
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/devLib/ds1302.c
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/devLib/maxdetect.c
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/devLib/piNes.c
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/devLib/gertboard.c
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/devLib/piFace.c
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/devLib/lcd128x64.c
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/devLib/lcd.c
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/devLib/piGlow.c )
+              ${distribution_DIR}/${wiring_DIR}/devLib/ds1302.c
+              ${distribution_DIR}/${wiring_DIR}/devLib/maxdetect.c
+              ${distribution_DIR}/${wiring_DIR}/devLib/piNes.c
+              ${distribution_DIR}/${wiring_DIR}/devLib/gertboard.c
+              ${distribution_DIR}/${wiring_DIR}/devLib/piFace.c
+              ${distribution_DIR}/${wiring_DIR}/devLib/lcd128x64.c
+              ${distribution_DIR}/${wiring_DIR}/devLib/lcd.c
+              ${distribution_DIR}/${wiring_DIR}/devLib/scrollPhat.c
+              ${distribution_DIR}/${wiring_DIR}/devLib/piGlow.c )
 
 target_link_libraries( wiringPiDev wiringPi ${log-lib} )
 
@@ -108,13 +125,10 @@ target_link_libraries( wiringPiDev wiringPi ${log-lib} )
 set(EXECUTABLE_OUTPUT_PATH      "${CMAKE_CURRENT_SOURCE_DIR}/src/main/assets/${ANDROID_ABI}")
 
 add_executable (gpio
+              ${distribution_DIR}/${wiring_DIR}/gpio/gpio.c
+              ${distribution_DIR}/${wiring_DIR}/gpio/readall.c)
 
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/gpio/gpio.c
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/gpio/extensions.c
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/gpio/readall.c
-              ${CMAKE_CURRENT_SOURCE_DIR}/src/main/cpp/wiringPi/gpio/pins.c )
-
-target_link_libraries( gpio wiringPi ${log-lib} )
+target_link_libraries( gpio wiringPi wiringPiDev ${log-lib} )
 
 ######################################################################
 # end of executable gpio
